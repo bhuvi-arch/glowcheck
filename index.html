@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowCheck India - AI Skincare Price Comparison</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #7c4dff;
+            --accent: #ff4081;
+            --light: #fff9fb;
+            --dark: #1a1a2e;
+            --gray: #f8f9fa;
+            --success: #4caf50;
+            --nykaa-pink: #e31b8f;
+            --flipkart-blue: #047bd5;
+            --amazon-orange: #ff9900;
+            --myntra-pink: #ff3f6c;
+            --meesho-purple: #f43397;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo .india-flag {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(to right, #ff9933 33%, white 33%, white 66%, #138808 66%);
+            width: 24px;
+            height: 16px;
+            border-radius: 2px;
+            position: relative;
+        }
+        
+        .logo .india-flag:after {
+            content: "🇮🇳";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 8px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        nav a:hover {
+            color: #ffeb3b;
+        }
+        
+        .search-box {
+            display: flex;
+            margin-top: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            font-size: 1rem;
+            background-color: white;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+        }
+        
+        .search-box button {
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            padding: 0 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-box button:hover {
+            background-color: #0f3460;
+        }
+        
+        /* Platform Badges */
+        .platform-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        
+        .platform-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .platform-badge.flipkart {
+            color: var(--flipkart-blue);
+            border-left: 4px solid var(--flipkart-blue);
+        }
+        
+        .platform-badge.amazon {
+            color: var(--amazon-orange);
+            border-left: 4px solid var(--amazon-orange);
+        }
+        
+        .platform-badge.nykaa {
+            color: var(--nykaa-pink);
+            border-left: 4px solid var(--nykaa-pink);
+        }
+        
+        .platform-badge.myntra {
+            color: var(--myntra-pink);
+            border-left: 4px solid var(--myntra-pink);
+        }
+        
+        .platform-badge.meesho {
+            color: var(--meesho-purple);
+            border-left: 4px solid var(--meesho-purple);
+        }
+        
+        /* Search Results */
+        .search-results {
+            display: none;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .results-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sort-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sort-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .sort-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Product Cards */
+        .product-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .product-header {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .product-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .product-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .product-info p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .stars {
+            color: #ffc107;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Price Comparison Table */
+        .price-comparison {
+            overflow-x: auto;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(248, 249, 250, 0.5);
+        }
+        
+        .platform {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .platform-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .flipkart { background-color: var(--flipkart-blue); }
+        .amazon { background-color: var(--amazon-orange); }
+        .nykaa { background-color: var(--nykaa-pink); }
+        .myntra { background-color: var(--myntra-pink); }
+        .meesho { background-color: var(--meesho-purple); }
+        
+        .price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+        
+        .discount {
+            color: var(--success);
+            font-weight: 600;
+            background-color: rgba(76, 175, 80, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        
+        .best-price {
+            color: var(--success);
+            font-weight: 700;
+            background-color: rgba(76, 175, 80, 0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+        
+        .action-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .action-button:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .action-button i {
+            font-size: 0.8rem;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* AI Recommendations */
+        .ai-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border: 1px solid #eee;
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-header h3 {
+            color: var(--dark);
+        }
+        
+        .ai-icon {
+            background-color: var(--secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .ai-recommendation {
+            background-color: #f9f9ff;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .ai-recommendation h4 {
+            margin-bottom: 8px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p {
+            color: #aaa;
+            max-width: 300px;
+            line-height: 1.8;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .product-header {
+                flex-direction: column;
+            }
+            
+            .product-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .platform-badges {
+                gap: 8px;
+            }
+            
+            .platform-badge {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+            
+            .search-box input, .search-box button {
+                border-radius: 0;
+                margin-bottom: 0;
+            }
+            
+            .search-box button {
+                padding: 15px;
+                justify-content: center;
+            }
+            
+            .sort-options {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-spa"></i>
+                    <h1>GlowCheck <span class="india-flag"></span></h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#" class="active"><i class="fas fa-search"></i> Compare</a></li>
+                        <li><a href="#"><i class="fas fa-fire"></i> Trending</a></li>
+                        <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
+                        <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search for sunscreen, serum, facewash, moisturizer...">
+                <button id="searchButton"><i class="fas fa-search"></i> Compare Prices</button>
+            </div>
+            
+            <div class="platform-badges">
+                <div class="platform-badge flipkart"><i class="fas fa-shopping-cart"></i> Flipkart</div>
+                <div class="platform-badge amazon"><i class="fab fa-amazon"></i> Amazon</div>
+                <div class="platform-badge nykaa"><i class="fas fa-store"></i> Nykaa</div>
+                <div class="platform-badge myntra"><i class="fas fa-tshirt"></i> Myntra</div>
+                <div class="platform-badge meesho"><i class="fas fa-tag"></i> Meesho</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <!-- AI Recommendations -->
+        <section class="ai-section">
+            <div class="ai-header">
+                <div class="ai-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>AI-Powered Recommendations for Indian Skin</h3>
+            </div>
+            
+            <div class="ai-recommendation">
+                <h4><i class="fas fa-lightbulb"></i> Best for Indian Summers</h4>
+                <p>Our AI recommends gel-based moisturizers (₹199-₹899) and non-comedogenic sunscreens (₹299-₹1,299) for hot and humid Indian weather.</p>
+            </div>
+            
+            <div class="ai-recommendation">
+                <h4><i class="fas fa-bolt"></i> Today's Best Deal!</h4>
+                <p><strong>Minimalist 10% Niacinamide Serum</strong> is now ₹549 on Nykaa (was ₹649). Save ₹100 with 4.8/5 rating.</p>
+            </div>
+        </section>
+
+        <!-- Loading Animation -->
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Searching Indian e-commerce platforms for best deals...</p>
+        </div>
+
+        <!-- Search Results -->
+        <section class="search-results" id="searchResults">
+            <div class="results-header">
+                <h2 id="resultsTitle">Search Results</h2>
+                <div class="results-count" id="resultsCount"></div>
+                <div class="sort-options">
+                    <button class="sort-btn active" onclick="sortProducts('price')">Lowest Price</button>
+                    <button class="sort-btn" onclick="sortProducts('rating')">Highest Rating</button>
+                    <button class="sort-btn" onclick="sortProducts('discount')">Best Discount</button>
+                </div>
+            </div>
+            
+            <div id="productsContainer">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Sample Products (Initially Visible) -->
+        <section class="comparison-section" id="sampleProducts">
+            <h2 class="section-title"><i class="fas fa-fire"></i> Trending in India</h2>
+            
+            <div class="product-card">
+                <div class="product-badge">BEST SELLER</div>
+                <div class="product-header">
+                    <div class="product-image">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Minimalist SPF 50 Sunscreen</h3>
+                        <p>Lightweight, non-greasy sunscreen with SPF 50 PA++++ protection. Suitable for all Indian skin types including oily and acne-prone skin.</p>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-value">4.7/5</span>
+                            <span>(3,845 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="price-comparison">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Price</th>
+                                <th>Rating</th>
+                                <th>Discount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="platform">
+                                        <div class="platform-icon amazon">A</div>
+                                        <span>Amazon</span>
+                                    </div>
+                                </td>
+                                <td class="price">₹525 <span class="discount">12% off</span></td>
+                                <td>4.7/5</td>
+                                <td><span class="best-price">Best Price</span></td>
+                                <td><button class="action-button" onclick="buyProduct('Minimalist SPF 50 Sunscreen', 'Amazon', '₹525')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="platform">
+                                        <div class="platform-icon nykaa">N</div>
+                                        <span>Nykaa</span>
+                                    </div>
+                                </td>
+                                <td class="price">₹575</td>
+                                <td>4.8/5</td>
+                                <td>₹50 more</td>
+                                <td><button class="action-button" onclick="buyProduct('Minimalist SPF 50 Sunscreen', 'Nykaa', '₹575')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="platform">
+                                        <div class="platform-icon flipkart">F</div>
+                                        <span>Flipkart</span>
+                                    </div>
+                                </td>
+                                <td class="price">₹549 <span class="discount">8% off</span></td>
+                                <td>4.6/5</td>
+                                <td>₹24 more</td>
+                                <td><button class="action-button" onclick="buyProduct('Minimalist SPF 50 Sunscreen', 'Flipkart', '₹549')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-badge">TRENDING</div>
+                <div class="product-header">
+                    <div class="product-image">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Plum 10% Niacinamide Serum</h3>
+                        <p>Oil-control serum with 10% Niacinamide for reducing sebum, pores & blemishes. Vegan and cruelty-free formula.</p>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="rating-value">4.3/5</span>
+                            <span>(2,917 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="price-comparison">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Price</th>
+                                <th>Rating</th>
+                                <th>Discount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="platform">
+                                        <div class="platform-icon myntra">M</div>
+                                        <span>Myntra</span>
+                                    </div>
+                                </td>
+                                <td class="price">₹675 <span class="discount">25% off</span></td>
+                                <td>4.3/5</td>
+                                <td><span class="best-price">Best Price</span></td>
+                                <td><button class="action-button" onclick="buyProduct('Plum 10% Niacinamide Serum', 'Myntra', '₹675')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="platform">
+                                        <div class="platform-icon nykaa">N</div>
+                                        <span>Nykaa</span>
+                                    </div>
+                                </td>
+                                <td class="price">₹699</td>
+                                <td>4.4/5</td>
+                                <td>₹24 more</td>
+                                <td><button class="action-button" onclick="buyProduct('Plum 10% Niacinamide Serum', 'Nykaa', '₹699')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="platform">
+                                        <div class="platform-icon amazon">A</div>
+                                        <span>Amazon</span>
+                                    </div>
+                                </td>
+                                <td class="price">₹725</td>
+                                <td>4.2/5</td>
+                                <td>₹50 more</td>
+                                <td><button class="action-button" onclick="buyProduct('Plum 10% Niacinamide Serum', 'Amazon', '₹725')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GlowCheck India</h3>
+                    <p>Your AI-powered skincare companion for Indian consumers. Compare prices, check ratings, and find the best deals for skincare products across all major Indian platforms.</p>
+                    <p style="margin-top: 15px; font-size: 0.9rem;">
+                        <i class="fas fa-rupee-sign"></i> Prices in Indian Rupees (INR)
+                    </p>
+                </div>
+                
+                <div class="footer-section footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> How It Works</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section footer-links">
+                    <h3>Supported Platforms</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-shopping-cart"></i> Flipkart</a></li>
+                        <li><a href="#"><i class="fab fa-amazon"></i> Amazon India</a></li>
+                        <li><a href="#"><i class="fas fa-store"></i> Nykaa</a></li>
+                        <li><a href="#"><i class="fas fa-tshirt"></i> Myntra</a></li>
+                        <li><a href="#"><i class="fas fa-tag"></i> Meesho</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 GlowCheck India. All rights reserved. | AI-Powered Skincare Comparison Tool for Indian Consumers</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">Prices and availability are subject to change. Always verify on the retailer's site before purchasing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Indian Skincare Products Database
+        const indianProductsDB = [
+            {
+                id: 1,
+                name: "Minimalist SPF 50 Sunscreen",
+                description: "Lightweight, non-greasy sunscreen with SPF 50 PA++++ protection. Suitable for all Indian skin types.",
+                category: "sunscreen",
+                rating: 4.7,
+                reviews: 3845,
+                prices: {
+                    amazon: { price: 525, discount: 12, original: 595 },
+                    nykaa: { price: 575, discount: 0, original: 575 },
+                    flipkart: { price: 549, discount: 8, original: 595 },
+                    myntra: { price: 599, discount: 5, original: 629 }
+                },
+                bestPrice: { platform: "amazon", price: 525 },
+                tags: ["Bestseller", "SPF 50", "Non-greasy"]
+            },
+            {
+                id: 2,
+                name: "Plum 10% Niacinamide Serum",
+                description: "Oil-control serum with 10% Niacinamide for reducing sebum, pores & blemishes.",
+                category: "serum",
+                rating: 4.3,
+                reviews: 2917,
+                prices: {
+                    myntra: { price: 675, discount: 25, original: 899 },
+                    nykaa: { price: 699, discount: 22, original: 899 },
+                    amazon: { price: 725, discount: 19, original: 899 },
+                    flipkart: { price: 695, discount: 23, original: 899 }
+                },
+                bestPrice: { platform: "myntra", price: 675 },
+                tags: ["Vegan", "Cruelty-free", "Oil Control"]
+            },
+            {
+                id: 3,
+                name: "Lakmē Sun Expert SPF 50",
+                description: "Ultra-light gel sunscreen for Indian skin with matte finish and broad spectrum protection.",
+                category: "sunscreen",
+                rating: 4.2,
+                reviews: 5412,
+                prices: {
+                    amazon: { price: 399, discount: 32, original: 585 },
+                    flipkart: { price: 449, discount: 23, original: 585 },
+                    nykaa: { price: 475, discount: 19, original: 585 },
+                    meesho: { price: 375, discount: 36, original: 585 }
+                },
+                bestPrice: { platform: "meesho", price: 375 },
+                tags: ["Matte Finish", "Gel Based", "SPF 50"]
+            },
+            {
+                id: 4,
+                name: "Mamaearth Vitamin C Face Toner",
+                description: "Brightening toner with Vitamin C and Gotu Kola. Alcohol-free formula suitable for all Indian skin types.",
+                category: "toner",
+                rating: 4.6,
+                reviews: 5112,
+                prices: {
+                    flipkart: { price: 349, discount: 41, original: 590 },
+                    myntra: { price: 399, discount: 32, original: 590 },
+                    amazon: { price: 425, discount: 28, original: 590 },
+                    nykaa: { price: 449, discount: 24, original: 590 }
+                },
+                bestPrice: { platform: "flipkart", price: 349 },
+                tags: ["Vitamin C", "Alcohol-free", "Brightening"]
+            },
+            {
+                id: 5,
+                name: "Biotique Bio Morning Nectar Face Wash",
+                description: "Ayurvedic face wash with honey and almond extracts for glowing skin.",
+                category: "facewash",
+                rating: 4.4,
+                reviews: 8923,
+                prices: {
+                    amazon: { price: 185, discount: 38, original: 299 },
+                    flipkart: { price: 199, discount: 33, original: 299 },
+                    nykaa: { price: 225, discount: 25, original: 299 },
+                    meesho: { price: 169, discount: 43, original: 299 }
+                },
+                bestPrice: { platform: "meesho", price: 169 },
+                tags: ["Ayurvedic", "Herbal", "Budget"]
+            },
+            {
+                id: 6,
+                name: "Dot & Key 72hr Hydrating Moisturizer",
+                description: "Hydrating moisturizer with hyaluronic acid for 72-hour moisture lock.",
+                category: "moisturizer",
+                rating: 4.5,
+                reviews: 3245,
+                prices: {
+                    nykaa: { price: 499, discount: 29, original: 699 },
+                    amazon: { price: 525, discount: 25, original: 699 },
+                    myntra: { price: 549, discount: 21, original: 699 },
+                    flipkart: { price: 475, discount: 32, original: 699 }
+                },
+                bestPrice: { platform: "flipkart", price: 475 },
+                tags: ["Hydrating", "Hyaluronic Acid", "72hr Moisture"]
+            },
+            {
+                id: 7,
+                name: "Dr. Sheth's Ceramide & Vitamin C Sunscreen",
+                description: "Sunscreen with ceramides and vitamin C for protection and brightening.",
+                category: "sunscreen",
+                rating: 4.8,
+                reviews: 2156,
+                prices: {
+                    nykaa: { price: 399, discount: 33, original: 595 },
+                    amazon: { price: 425, discount: 29, original: 595 },
+                    myntra: { price: 449, discount: 25, original: 595 },
+                    flipkart: { price: 375, discount: 37, original: 595 }
+                },
+                bestPrice: { platform: "flipkart", price: 375 },
+                tags: ["Ceramides", "Vitamin C", "Dermatologist"]
+            },
+            {
+                id: 8,
+                name: "The Derma Co 10% Niacinamide Serum",
+                description: "Clarifying serum with 10% niacinamide for pores and oil control.",
+                category: "serum",
+                rating: 4.6,
+                reviews: 1876,
+                prices: {
+                    amazon: { price: 599, discount: 25, original: 799 },
+                    nykaa: { price: 649, discount: 19, original: 799 },
+                    myntra: { price: 625, discount: 22, original: 799 },
+                    flipkart: { price: 575, discount: 28, original: 799 }
+                },
+                bestPrice: { platform: "flipkart", price: 575 },
+                tags: ["Oil Control", "Pore Refining", "Clarifying"]
+            }
+        ];
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+        const sampleProducts = document.getElementById('sampleProducts');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const productsContainer = document.getElementById('productsContainer');
+        const resultsTitle = document.getElementById('resultsTitle');
+        const resultsCount = document.getElementById('resultsCount');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+
+        // Current state
+        let currentProducts = [];
+        let currentSort = 'price';
+
+        // Search Functionality
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (!query) {
+                alert('Please enter a product name to search (e.g., sunscreen, serum, facewash)');
+                return;
+            }
+            
+            // Show loading
+            loadingIndicator.style.display = 'block';
+            searchResults.style.display = 'none';
+            sampleProducts.style.display = 'none';
+            
+            // Simulate API delay
+            setTimeout(() => {
+                // Filter products based on query
+                const filteredProducts = indianProductsDB.filter(product => 
+                    product.name.toLowerCase().includes(query) || 
+                    product.category.toLowerCase().includes(query) ||
+                    product.tags.some(tag => tag.toLowerCase().includes(query))
+                );
+                
+                currentProducts = filteredProducts;
+                
+                // Update UI
+                resultsTitle.textContent = `Search Results for "${query}"`;
+                resultsCount.textContent = `${filteredProducts.length} products found in Indian market`;
+                
+                // Sort and display
+                sortProducts(currentSort);
+                
+                // Hide loading, show results
+                loadingIndicator.style.display = 'none';
+                searchResults.style.display = 'block';
+                
+                // Update active sort button
+                sortButtons.forEach(btn => {
+                    if (btn.textContent.includes(currentSort === 'price' ? 'Lowest Price' : 
+                                                currentSort === 'rating' ? 'Highest Rating' : 'Best Discount')) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+            }, 1500); // Simulated network delay
+        }
+
+        // Sort Products
+        function sortProducts(sortBy) {
+            currentSort = sortBy;
+            
+            let sortedProducts = [...currentProducts];
+            
+            switch(sortBy) {
+                case 'price':
+                    sortedProducts.sort((a, b) => a.bestPrice.price - b.bestPrice.price);
+                    break;
+                case 'rating':
+                    sortedProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'discount':
+                    sortedProducts.sort((a, b) => {
+                        const maxDiscountA = Math.max(...Object.values(a.prices).map(p => p.discount));
+                        const maxDiscountB = Math.max(...Object.values(b.prices).map(p => p.discount));
+                        return maxDiscountB - maxDiscountA;
+                    });
+                    break;
+            }
+            
+            displayProducts(sortedProducts);
+        }
+
+        // Display Products
+        function displayProducts(products) {
+            productsContainer.innerHTML = '';
+            
+            if (products.length === 0) {
+                productsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 15px;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>No products found</h3>
+                        <p>Try searching for: sunscreen, serum, facewash, moisturizer, toner</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            products.forEach(product => {
+                const productCard = createProductCard(product);
+                productsContainer.appendChild(productCard);
+            });
+        }
+
+        // Create Product Card HTML
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            
+            // Determine badge
+            let badgeText = '';
+            if (product.rating >= 4.5) badgeText = 'TOP RATED';
+            else if (product.reviews > 5000) badgeText = 'POPULAR';
+            else if (Math.max(...Object.values(product.prices).map(p => p.dount)) > 30) badgeText = 'BIG SAVING';
+            
+            const badgeHTML = badgeText ? `<div class="product-badge">${badgeText}</div>` : '';
+            
+            // Create stars HTML
+            const starsHTML = createStarsHTML(product.rating);
+            
+            // Create price rows
+            let priceRowsHTML = '';
+            const platforms = ['amazon', 'flipkart', 'nykaa', 'myntra', 'meesho'];
+            
+            platforms.forEach(platform => {
+                if (product.prices[platform]) {
+                    const priceInfo = product.prices[platform];
+                    const isBestPrice = product.bestPrice.platform === platform;
+                    
+                    priceRowsHTML += `
+                        <tr>
+                            <td>
+                                <div class="platform">
+                                    <div class="platform-icon ${platform}">${platform.charAt(0).toUpperCase()}</div>
+                                    <span>${platform.charAt(0).toUpperCase() + platform.slice(1)}</span>
+                                </div>
+                            </td>
+                            <td class="price">₹${priceInfo.price} ${priceInfo.discount > 0 ? `<span class="discount">${priceInfo.discount}% off</span>` : ''}</td>
+                            <td>${product.rating}/5</td>
+                            <td>${isBestPrice ? '<span class="best-price">Best Price</span>' : `₹${priceInfo.price - product.bestPrice.price} more`}</td>
+                            <td><button class="action-button" onclick="buyProduct('${product.name}', '${platform}', '₹${priceInfo.price}')"><i class="fas fa-external-link-alt"></i> Buy Now</button></td>
+                        </tr>
+                    `;
+                }
+            });
+            
+            card.innerHTML = `
+                ${badgeHTML}
+                <div class="product-header">
+                    <div class="product-image">
+                        <i class="fas ${getProductIcon(product.category)}"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <div class="rating">
+                            <div class="stars">${starsHTML}</div>
+                            <span class="rating-value">${product.rating}/5</span>
+                            <span>(${product.reviews.toLocaleString()} reviews)</span>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 10px;">
+                            ${product.tags.map(tag => `<span style="background: #f0f0f0; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem;">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="price-comparison">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Price</th>
+                                <th>Rating</th>
+                                <th>Savings</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${priceRowsHTML}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Helper Functions
+        function createStarsHTML(rating) {
+            let starsHTML = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars && hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            return starsHTML;
+        }
+
+        function getProductIcon(category) {
+            switch(category) {
+                case 'sunscreen': return 'fa-sun';
+                case 'serum': return 'fa-flask';
+                case 'facewash': return 'fa-pump-soap';
+                case 'moisturizer': return 'fa-oil-can';
+                case 'toner': return 'fa-spray-can';
+                default: return 'fa-spa';
+            }
+        }
+
+        // Buy Product Function
+        window.buyProduct = function(productName, platform, price) {
+            const platformNames = {
+                'amazon': 'Amazon India',
+                'flipkart': 'Flipkart',
+                'nykaa': 'Nykaa',
+                'myntra': 'Myntra',
+                'meesho': 'Meesho'
+            };
+            
+            const platformURLs = {
+                'amazon': `https://www.amazon.in/s?k=${encodeURIComponent(productName)}`,
+                'flipkart': `https://www.flipkart.com/search?q=${encodeURIComponent(productName)}`,
+                'nykaa': `https://www.nykaa.com/search/result/?q=${encodeURIComponent(productName)}`,
+                'myntra': `https://www.myntra.com/${encodeURIComponent(productName.replace(/ /g, '-'))}`,
+                'meesho': `https://www.meesho.com/search?q=${encodeURIComponent(productName)}`
+            };
+            
+            // Show purchase confirmation
+            const confirmed = confirm(`You're about to purchase:\n\n${productName}\n\nPrice: ${price}\nPlatform: ${platformNames[platform]}\n\nClick OK to proceed to ${platformNames[platform]}.`);
+            
+            if (confirmed) {
+                // In a real app, this would redirect to the actual product page
+                // For demo, we'll simulate the redirect
+                alert(`Redirecting to ${platformNames[platform]} to purchase:\n\n${productName}\n\nPrice: ${price}\n\nIn a real application, this would open: ${platformURLs[platform]}`);
+                
+                // Uncomment this line for actual redirect:
+                // window.open(platformURLs[platform], '_blank');
+            }
+        }
+
+        // Initialize with sample search
+        window.addEventListener('load', function() {
+            // Pre-populate with a sample search
+            searchInput.value = 'sunscreen';
+            
+            // Add click handlers to sort buttons
+            sortButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Add some interactive effects
+            document.querySelectorAll('.platform-badge').forEach(badge => {
+                badge.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                });
+                
+                badge.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.08)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
